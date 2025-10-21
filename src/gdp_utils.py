@@ -54,3 +54,46 @@ def fetch_worldbank_gdp(
         )
     df = pd.DataFrame(rows).sort_values(["country", "year"]).reset_index(drop=True)
     return df
+
+# --- add below your fetch function ---
+
+import pandas as pd
+
+def clean_gdp(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Keep (country, iso3, year, value), drop NA, enforce dtypes, sort.
+    Returns tidy long form.
+    """
+    out = (
+        df[['country', 'iso3', 'year', 'value']]
+        .dropna(subset=['value'])
+        .astype({'year': 'int64', 'value': 'float64'})
+        .sort_values(['country', 'year'])
+        .reset_index(drop=True)
+    )
+    return out
+
+def to_wide(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Pivot to wide format: index=year, columns=country, values=value.
+    """
+    wide = (
+        df.pivot(index='year', columns='country', values='value')
+        .sort_index()
+    )
+    return wide
+
+def plot_gdp(wide: pd.DataFrame, ax=None, title="GDP (current US$, 2000–2022)"):
+    """
+    Simple matplotlib line plot for multiple countries (trillions of USD).
+    """
+    import matplotlib.pyplot as plt
+    if ax is None:
+        _, ax = plt.subplots(figsize=(10, 6))
+    (wide / 1e12).plot(ax=ax)  # show in trillions for readability
+    ax.set_ylabel("GDP (trillions, current US$)")
+    ax.set_xlabel("Year")
+    ax.set_title(title)
+    ax.legend(title="Country", loc="best", fontsize=9)
+    ax.grid(True, alpha=0.3)
+    return ax
