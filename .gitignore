@@ -1,0 +1,37 @@
+# --- Virtual environments ---
+.venv/
+venv/
+env/
+
+# --- Python cache and compiled files ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# --- Data files (generated outputs, not source) ---
+data/
+*.csv
+*.xlsx
+*.parquet
+*.hdf5
+
+# --- Jupyter notebook checkpoints ---
+.ipynb_checkpoints/
+
+# --- VS Code and IDE settings ---
+.vscode/
+.idea/
+
+# --- System files ---
+.DS_Store
+Thumbs.db
+
+# --- Logs and temporary files ---
+*.log
+*.tmp
+*.bak
+
+# --- Environment and dependency files ---
+*.env
+.env.*
